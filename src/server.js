@@ -2,8 +2,13 @@ const express = require('express')
 
 const server = express()
 
-server.get('/', (req, res) => {
-  res.json({ message: 'Hello world!' })
+server.use(express.json())
+
+const projects = []
+
+server.get('/projects', (req, res) => {
+  res.json(projects)
+})
 })
 
 server.listen(3000)
