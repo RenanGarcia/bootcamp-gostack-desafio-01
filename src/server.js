@@ -1,6 +1,9 @@
 const express = require('express')
-
 const server = express()
+
+const projects = []
+let requestsCount = 0
+
 /**
  * Middleware to validate if projects exists and atach project index in req object
  */
@@ -22,9 +25,17 @@ const projectExistsValidator = (req, res, next) => {
   return next()
 }
 
-server.use(express.json())
+/**
+ * Middleware to log the number of requests
+ */
+const logRequestsCounter = (req, res, next) => {
+  requestsCount++
+  console.log(`Number of requests: ${requestsCount}`)
+  return next()
+}
 
-const projects = []
+server.use(express.json())
+server.use(logRequestsCounter)
 
 server.get('/projects', (req, res) => {
   res.json(projects)
