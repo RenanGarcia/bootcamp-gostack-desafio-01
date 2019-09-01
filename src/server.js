@@ -38,7 +38,7 @@ server.use(express.json())
 server.use(logRequestsCounter)
 
 server.get('/projects', (req, res) => {
-  res.json(projects)
+  return res.json(projects)
 })
 
 server.post('/projects', (req, res) => {
@@ -58,7 +58,9 @@ server.post('/projects', (req, res) => {
 
   projects.push({ id, title, tasks })
 
-  return res.json({ message: 'Project was included successfully' })
+  return res.json({ message: 'Project was successfully included' })
+})
+
 server.put('/projects/:id', projectExistsValidator, (req, res) => {
   const { projectIndex } = req
   const { id } = req.params
