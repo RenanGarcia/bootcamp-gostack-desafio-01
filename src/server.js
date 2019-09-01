@@ -48,7 +48,29 @@ server.post('/projects', (req, res) => {
   projects.push({ id, title, tasks })
 
   return res.json({ message: 'Project was included successfully' })
+server.put('/projects/:id', projectExistsValidator, (req, res) => {
+  const { projectIndex } = req
+  const { id } = req.params
+  const { title } = req.body
+
+  if (typeof id !== 'string') {
+    return res.status(400).json({ error: 'Invalid data types' })
+  }
+
+  projects[projectIndex] = {
+    ...projects[projectIndex],
+    title
+  }
+
+  return res.json(projects[projectIndex])
 })
+
+server.delete('/projects/:id', projectExistsValidator, (req, res) => {
+  const { projectIndex } = req
+
+  projects.splice(projectIndex, 1)
+
+  return res.json({ message: 'Project was successfully removed' })
 })
 
 server.listen(3000)
